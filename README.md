@@ -1,188 +1,105 @@
-# 🍫 Chocolate Sales Analysis — SQL Portfolio
+# 🍫 Chocolate Sales Analysis — SQL Portfolio Project
 
-> Comprehensive SQL query portfolio analyzing chocolate sales data across 6 countries, 22 products & 23 salespersons. Covers revenue KPIs, product efficiency, salesperson rankings, trend analysis, Pareto classification & shipping insights. Built for PostgreSQL.
+A SQL-driven analysis of a global chocolate distribution dataset, uncovering revenue drivers, sales rep performance, product profitability, and seasonal trends across six countries.
 
----
-
-## 📌 Table of Contents
-
-- [Project Overview](#-project-overview)
-- [Dataset Summary](#-dataset-summary)
-- [Database Schema](#-database-schema)
-- [Query Sections](#-query-sections)
-- [Key KPIs Covered](#-key-kpis-covered)
-- [Key Insights from the Data](#-key-insights-from-the-data)
-- [How to Use](#-how-to-use)
-- [Tools & Compatibility](#-tools--compatibility)
-- [Author](#-author)
+![SQL](https://img.shields.io/badge/SQL-PostgreSQL-blue) ![Status](https://img.shields.io/badge/status-complete-brightgreen) ![Rows](https://img.shields.io/badge/records-3%2C282-orange)
 
 ---
 
-## 📋 Project Overview
+## 📌 Project Overview
 
-This project is part of my **Data Analytics Portfolio** and demonstrates practical SQL skills applied to a real-world chocolate sales dataset. The goal is to extract meaningful business intelligence that can inform stakeholder decisions — covering everything from top-line revenue summaries to granular salesperson and product-level performance.
+This project analyzes transactional sales data for a chocolate distributor operating across **🇬🇧 UK, 🇺🇸 USA, 🇮🇳 India, 🇦🇺 Australia, 🇨🇦 Canada,** and **🇳🇿 New Zealand**. The goal: turn raw transaction-level data into decision-ready KPIs a sales or operations leader could act on.
 
-The queries are structured as a portfolio file, progressing from basic aggregations through to advanced window functions, CTEs, and cross-tabulations — mimicking how a data analyst would approach a full sales analysis brief.
-
----
-
-## 📊 Dataset Summary
-
-| Attribute | Detail |
+| | |
 |---|---|
-| **Period covered** | January – August 2022 |
-| **Total transactions** | 49 |
-| **Total revenue** | $267,428 |
-| **Countries** | UK, USA, Australia, India, Canada, New Zealand |
-| **Products** | 22 chocolate product lines |
-| **Salespersons** | 23 |
-| **Total boxes shipped** | 8,082 |
-| **Average order value** | $5,458 |
+| 📅 **Time period** | Jan 2022 – Aug 2024 |
+| 🧾 **Records** | 3,282 transactions |
+| 🌍 **Markets** | 6 countries |
+| 🍬 **Products** | 22 SKUs |
+| 🧑‍💼 **Sales reps** | 25 |
+| 💰 **Total revenue** | ~$19.79M |
+| 📦 **Total boxes shipped** | ~540,437 |
 
 ---
 
-## 🗂️ Database Schema
-
-```sql
-CREATE TABLE sales (
-    sale_id       SERIAL PRIMARY KEY,
-    first_name    VARCHAR(50),
-    last_name     VARCHAR(50),
-    country       VARCHAR(50),
-    product       VARCHAR(100),
-    sale_date     DATE,
-    amount        NUMERIC(12, 2),
-    boxes_shipped INT
-);
-```
-
-> **Note:** The `salesperson` field is derived at query time using `CONCAT(first_name, ' ', last_name)` rather than stored as a separate column.
-
----
-
-## 🗃️ Query Sections
-
-The portfolio is organized into **8 sections** covering **25 queries**:
+## 🗂️ Repository Structure
 
 ```
-chocolate_sales_analysis.sql
+chocolate-sales-analysis/
 │
-├── Section 0 — Table Setup (DDL)
-├── Section 1 — Overview KPIs
-├── Section 2 — Revenue by Country
-├── Section 3 — Product Performance
-├── Section 4 — Salesperson Performance
-├── Section 5 — Monthly Revenue Trend
-├── Section 6 — Revenue per Box (Efficiency)
-├── Section 7 — Shipping Method Analysis
-└── Section 8 — Advanced / Combined Insights
+├── chocolate_sales_clean.csv        # Cleaned dataset (currency & date formatted)
+├── chocolate_sales_analysis.sql     # All KPI & analytical SQL queries
+└── README.md                        # This file
 ```
 
-### Section details
+---
 
-| # | Section | Queries | Highlights |
-|---|---|---|---|
-| 0 | Table Setup | 1 | DDL — schema creation |
-| 1 | Overview KPIs | 2 | Executive snapshot, High/Low sale value classification |
-| 2 | Revenue by Country | 2 | Market share %, concentration risk flag |
-| 3 | Product Performance | 5 | Top/bottom products, efficiency ranking, market breadth |
-| 4 | Salesperson Performance | 4 | Leaderboard, performance gap ratio, above/below average flag |
-| 5 | Monthly Trend | 3 | MoM change with `LAG()`, anomaly detection |
-| 6 | Revenue per Box | 2 | Efficiency quartiles with `NTILE(4)` |
-| 7 | Shipping Method | 2 | Method classification, country breakdown |
-| 8 | Advanced Insights | 4 | Pareto 80/20, pivot table, best rep/product per country, BI-ready detail view |
+## 🧹 Data Cleaning
+
+Raw data required light transformation before analysis:
+
+- 💵 `Amount` converted from text currency (`"$5,320.00"`) → numeric `DECIMAL(12,2)`
+- 📆 `Date` parsed from `DD/MM/YYYY` string → proper `DATE` type
+- ✅ No duplicate transactions or missing values found in the source file
 
 ---
 
-## 📈 Key KPIs Covered
+## 📊 Key Insights & KPIs
 
-- **Total Revenue & Growth** — monthly and cumulative
-- **Average Order Value (AOV)** — overall and by segment
-- **Revenue per Box Shipped** — product logistics efficiency
-- **Market Share %** — by country and product
-- **High vs Low Sale Value Classification** — transaction quality split
-- **Month-over-Month (MoM) Change** — trend direction and magnitude
-- **Salesperson Revenue Ranking** — individual contribution and team variance
-- **Performance Gap Ratio** — top vs bottom salesperson
-- **Pareto 80/20 Analysis** — which products drive 80% of revenue
-- **Shipping Method Distribution** — logistics mode breakdown
+### 1️⃣ Revenue Performance
+- 🏆 **Australia** leads all markets at **$3.65M** in revenue, narrowly ahead of the UK ($3.37M) and India ($3.34M) — the top 3 markets are within ~9% of each other, showing a well-balanced international footprint rather than dependence on a single region.
+- 📦 **Smooth Silky Salty**, **50% Dark Bites**, and **White Choc** are the top 3 products by revenue, each generating over $1M — useful for prioritizing inventory and marketing spend.
+
+### 2️⃣ Sales Rep Performance
+- 📈 A rep leaderboard (ranked via `RANK()`) surfaces top and bottom performers by total revenue and average deal size — critical for incentive design and coaching priorities.
+- ⚖️ Benchmarking each rep's revenue against the **company-wide average** (via window functions) flags reps significantly over- or under-performing peers.
+
+### 3️⃣ Product Profitability
+- 💎 Calculating **revenue per box shipped** (rather than raw revenue) separates *high-margin, low-volume* products from *high-volume, low-margin* ones — a more actionable view for pricing and promotion strategy than revenue alone.
+- 🥇 `NTILE(4)` buckets products into revenue quartiles, instantly flagging the bottom-quartile SKUs that may be candidates for discontinuation.
+
+### 4️⃣ Time-Series Trends
+- 📉📈 Month-over-month growth rates (via `LAG()`) reveal seasonal demand swings — useful for production planning and staffing.
+- 🌊 A **3-month rolling average** smooths short-term noise to expose the underlying growth trend across the 2022–2024 window.
+
+### 5️⃣ Market-Specific Bestsellers
+- 🗺️ A per-country "best-selling product" query (using `RANK() PARTITION BY country`) shows that consumer preference is **not uniform** — different markets favor different SKUs, which should inform localized merchandising.
+
+### 6️⃣ Shipping & Operational Efficiency
+- 🚚 Boxes-per-order and revenue-per-box by country highlight which markets ship efficiently (low cost-to-serve) versus those needing logistics optimization.
 
 ---
 
-## 💡 Key Insights from the Data
+## 🛠️ SQL Techniques Demonstrated
 
-Here are the standout findings surfaced by the queries:
-
-| Flag | Insight |
+| Technique | Used For |
 |---|---|
-| 🔴 Concentration Risk | UK + USA = **45.6%** of total revenue — over-reliance on two markets |
-| 🟡 Revenue Anomaly | March revenue collapsed to **$9,786** (only 3 transactions) vs $57K in February |
-| 🟢 Star Product | **Peanut Butter Cubes** — top revenue generator at $46,081 across 5 transactions |
-| 🔴 Underperformer | **Fruit & Nut Bars** — $168 total revenue, $0.52 per box, 1 transaction only |
-| 🔵 Efficiency Leader | **Orange Choco** — highest revenue per box at $337, though low volume |
-| 🟡 Rep Disparity | Top rep earns **26×** more than the bottom rep ($28,798 vs $1,085) |
-| 🔵 Logistics | **Truck** dominates at 51% of all shipments — single-mode dependency risk |
+| `GROUP BY` + aggregates | Core revenue/orders/boxes summaries |
+| `RANK()` | Leaderboards (reps, countries, products) |
+| `NTILE(4)` | Quartile segmentation of product performance |
+| `LAG()` | Month-over-month growth calculations |
+| `Window AVG() OVER()` | Rolling 3-month averages & rep vs. company benchmarking |
+| `PARTITION BY` | Best-seller-per-country breakdown |
+| `CTE (WITH)` | Multi-step monthly trend & ranking logic |
+| `CREATE VIEW` | Reusable BI layer for dashboard/Excel hookup |
 
 ---
 
-## 🚀 How to Use
+## 💡 Business Recommendations
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/chocolate-sales-sql.git
-cd chocolate-sales-sql
-```
-
-### 2. Set up the database
-```bash
-# PostgreSQL example
-psql -U your_username -d your_database
-```
-
-### 3. Create the table and load data
-```sql
--- Run the DDL from Section 0
-\i chocolate_sales_analysis.sql
-```
-
-### 4. Run individual queries
-Each section is clearly labelled with comments. Jump to any section directly, or run the full file sequentially to reproduce all results.
-
-> 💡 **Tip:** Use a GUI like **pgAdmin**, **DBeaver**, or **TablePlus** for a visual query experience.
+1. **Double down on Australia, UK, and India** — the three markets driving over half of total revenue.
+2. **Re-evaluate bottom-quartile SKUs** for pricing, bundling, or discontinuation.
+3. **Localize product promotion** per country's top-selling SKU rather than a one-size-fits-all catalog push.
+4. **Use rep benchmarking** to design targeted coaching for under-performing reps and replicate top performers' approach.
+5. **Smooth seasonal swings** in production/staffing using the rolling average trend.
 
 ---
 
-## 🛠️ Tools & Compatibility
+## 👩‍💻 About This Project
 
-| Tool | Status |
-|---|---|
-| PostgreSQL 13+ | ✅ Fully compatible |
-| MySQL 8+ | ✅ Compatible (minor syntax notes included in file) |
-| SQL Server | ✅ Compatible |
-| SQLite | ⚠️ Partial — window functions limited |
-| DBeaver / pgAdmin | ✅ Recommended for visual exploration |
-| Power BI / Tableau | ✅ Section 8 detail view is BI-tool ready |
+Built as part of a growing **data analytics portfolio** demonstrating SQL proficiency (CTEs, window functions, ranking, and reusable views) applied to real-world business questions — bridging analytical engineering rigor with practical, decision-ready insight.
 
-### SQL features used
-- `GROUP BY` with aggregate functions
-- Window functions — `RANK()`, `LAG()`, `NTILE()`, `SUM() OVER()`
-- Common Table Expressions (CTEs) — `WITH` clauses
-- `CASE WHEN` classification logic
-- `PARTITION BY` for grouped rankings
-- `CROSS JOIN` for team-level benchmarks
-- `NULLIF()` for safe division
+📫 Connect with me: [Portfolio](https://sites.google.com/view/lydiawafula) | LinkedIn | GitHub
 
 ---
-
-## 👩🏽‍💻 Author
-
-**Lydia Wafula**
-*Business Analyst | Data Analytics | Certified Virtual Assistant*
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/lydiawafula)
-[![Portfolio](https://img.shields.io/badge/Portfolio-View-lightgrey?logo=google)](https://sites.google.com/view/lydiawafula)
-
-> *"Data without direction is just noise — the goal is always the insight that drives the next decision."*
-
----
-*Part of Lydia Wafula's Data Analytics Portfolio — SQL | Excel | Power BI | Python*
+⭐ *If you found this project useful, consider giving the repo a star!*
