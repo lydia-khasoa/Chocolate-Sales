@@ -102,4 +102,101 @@ Built as part of a growing **data analytics portfolio** demonstrating SQL profic
 📫 Connect with me: [Portfolio](https://sites.google.com/view/lydiawafula) | LinkedIn | GitHub
 
 ---
+
 ⭐ *If you found this project useful, consider giving the repo a star!*
+
+---
+
+## 🐍 Python Visualization Script
+
+The SQL analysis is complemented by a Python script (`chocolate_sales_analysis.py`) that translates every KPI into a publication-ready chart — using a consistent warm cocoa-and-caramel colour palette throughout.
+
+### ⚙️ Requirements
+
+```bash
+pip install pandas matplotlib seaborn
+```
+
+> Python 3.8+ recommended. No database connection needed — the script reads directly from the cleaned CSV.
+
+---
+
+### 🚀 How to Run
+
+Place the script and the dataset in the same folder, then:
+
+```bash
+python chocolate_sales_analysis.py
+```
+
+All charts are saved automatically to a `charts/` subfolder. The terminal prints a confirmation and file size for each chart as it is generated.
+
+---
+
+### 📁 Updated Repository Structure
+
+```
+chocolate-sales-analysis/
+│
+├── Chocolate_Sales__2_.csv               # Raw dataset
+├── chocolate_sales_clean.csv             # Cleaned dataset (currency & date formatted)
+├── chocolate_sales_analysis.sql          # All KPI & analytical SQL queries
+├── chocolate_sales_analysis.py           # Python EDA & visualization script
+├── README.md                             # This file
+│
+└── charts/
+    ├── 01_kpi_summary.png                # Top-line KPI dashboard card
+    ├── 02_revenue_by_country.png         # Bar chart + donut: market performance & share
+    ├── 03_product_revenue.png            # Top & bottom 10 products by revenue
+    ├── 04_revenue_per_box.png            # Revenue-per-box efficiency by product
+    ├── 05_sales_rep_leaderboard.png      # Rep leaderboard vs. company average
+    ├── 06_monthly_trend.png              # Monthly revenue + 3-month rolling avg + MoM growth
+    ├── 07_heatmap_country_product.png    # Country × product revenue heatmap
+    └── 08_yearly_country_comparison.png  # Year-over-year revenue by country
+```
+
+---
+
+### 📊 Chart Gallery
+
+| # | Chart | Business Question Answered |
+|---|---|---|
+| 1 | 🟫 **KPI Summary Card** | What are the headline numbers? |
+| 2 | 🌍 **Revenue by Country** | Which markets generate the most value? |
+| 3 | 🍬 **Top & Bottom 10 Products** | Which SKUs lead — and which underperform? |
+| 4 | 📦 **Revenue per Box** | Which products are most margin-efficient? |
+| 5 | 🧑‍💼 **Sales Rep Leaderboard** | Who is above and below the company average? |
+| 6 | 📈 **Monthly Trend + MoM Growth** | Where is revenue heading and how volatile is it? |
+| 7 | 🗺️ **Country × Product Heatmap** | Where does each product sell best? |
+| 8 | 📅 **Year-over-Year by Country** | How is each market growing across 2022–2024? |
+
+---
+
+### 🎨 Design Approach
+
+All charts share a single cohesive colour system — no default Matplotlib blues:
+
+| Role | Hex | Usage |
+|---|---|---|
+| Deep Cocoa `█` | `#4B2E2A` | Primary bars, titles, high-performers |
+| Warm Caramel `█` | `#B07D6A` | Secondary bars, below-average highlights |
+| Sand `█` | `#D4A98A` | Benchmark/reference lines |
+| Cream `█` | `#FDF6F0` | Chart backgrounds |
+
+A shared `apply_style()` helper ensures consistent axis formatting, gridlines, spine removal, and typography across all 8 charts — making the full set look like a unified report rather than a collection of independent plots.
+
+---
+
+### 🛠️ Python Libraries & Techniques Demonstrated
+
+| Library / Feature | Used For |
+|---|---|
+| `pandas` — `.groupby()`, `.agg()`, `.pivot()` | All KPI aggregations |
+| `pandas` — `.pct_change()`, `.rolling()` | MoM growth & rolling average |
+| `matplotlib` — `gridspec`, `FuncFormatter` | Custom layouts & currency axis labels |
+| `matplotlib.dates` | Proper time-axis formatting on trend charts |
+| `seaborn` — `heatmap()` | Country × product revenue heatmap |
+| Dual-axis subplots (`sharex=True`) | Revenue trend + MoM growth stacked panel |
+| Conditional bar colouring | Above/below benchmark highlighting |
+| Donut chart (`wedgeprops width`) | Revenue share by country |
+| Modular `apply_style()` helper | DRY, consistent chart styling |
