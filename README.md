@@ -99,7 +99,7 @@ Raw data required light transformation before analysis:
 
 Built as part of a growing **data analytics portfolio** demonstrating SQL proficiency (CTEs, window functions, ranking, and reusable views) applied to real-world business questions — bridging analytical engineering rigor with practical, decision-ready insight.
 
-📫 Connect with me: [Portfolio](https://sites.google.com/view/lydiawafula) | LinkedIn(https://www.linkedin.com/in/lydia-khasoa-wafula/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BA7pa6nVQQQ2STH5p%2FU%2BoSQ%3D%3D)
+📫 Connect with me: [Portfolio](https://sites.google.com/view/lydiawafula) | .[LinkedIn](https://www.linkedin.com/in/lydia-khasoa-wafula/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BA7pa6nVQQQ2STH5p%2FU%2BoSQ%3D%3D)
 
 ---
 
